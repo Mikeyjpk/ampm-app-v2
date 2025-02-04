@@ -3,10 +3,16 @@
 import { useState, useEffect } from "react";
 import { motion, AnimatePresence, Variants } from "framer-motion";
 import { useRouter } from "next/navigation";
+import { useSession, signOut } from "next-auth/react";
 
 const Navbar: React.FC = () => {
+	const { data: session } = useSession(); // 🔹 Get session data
 	const [isOpen, setIsOpen] = useState<boolean>(false);
 	const router = useRouter();
+
+	const toggleOpen = () => {
+		setIsOpen((prev) => !prev);
+	};
 
 	const navTo = (route: string) => {
 		switch (route) {
@@ -23,11 +29,7 @@ const Navbar: React.FC = () => {
 				router.push("/Merch");
 				break;
 		}
-		toggleOpen(); // Close menu after navigation
-	};
-
-	const toggleOpen = () => {
-		setIsOpen((prev) => !prev);
+		toggleOpen();
 	};
 
 	// Disable scrolling when the menu is open
@@ -50,18 +52,12 @@ const Navbar: React.FC = () => {
 		visible: {
 			height: "100vh",
 			opacity: 1,
-			transition: {
-				duration: 0.5,
-				ease: "easeInOut",
-			},
+			transition: { duration: 0.5, ease: "easeInOut" },
 		},
 		exit: {
 			height: "0vh",
 			opacity: 0,
-			transition: {
-				duration: 0.5,
-				ease: "easeInOut",
-			},
+			transition: { duration: 0.5, ease: "easeInOut" },
 		},
 	};
 
@@ -71,11 +67,13 @@ const Navbar: React.FC = () => {
 		visible: (i: number) => ({
 			opacity: 1,
 			y: 0,
-			transition: {
-				delay: 0.4 + i * 0.3, // Stagger delay for each item
-				duration: 0.3,
-			},
+			transition: { delay: 0.4 + i * 0.3, duration: 0.3 },
 		}),
+	};
+
+	const handleSignOut = async () => {
+		await signOut({ redirect: false });
+		router.refresh();
 	};
 
 	return (
@@ -88,6 +86,18 @@ const Navbar: React.FC = () => {
 			>
 				{isOpen ? <p>CLOSE</p> : <p>MENU</p>}
 			</button>
+
+			{/* sign out button	*/}
+			{session && (
+				<button
+					onClick={handleSignOut}
+					className={`  transition px-4 py-2 absolute left-0 z-50 ${
+						isOpen ? "text-black hover:text-black/80" : "text-white"
+					}`}
+				>
+					Sign Out
+				</button>
+			)}
 
 			{/* AnimatePresence ensures proper unmounting animations */}
 			<AnimatePresence>

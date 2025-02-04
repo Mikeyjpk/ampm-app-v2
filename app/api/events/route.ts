@@ -1,8 +1,27 @@
 import { PrismaClient } from "@prisma/client";
 import { NextResponse } from "next/server";
+import { getServerSession } from "next-auth";
+import { authOptions } from "@/app/api/auth/[...nextauth]/route";
 
 const prisma = new PrismaClient();
 
+// 🔹 GET: Retrieve all events
+export async function GET() {
+	try {
+		const events = await prisma.event.findMany({
+			orderBy: { date: "asc" },
+		});
+
+		return NextResponse.json(events, { status: 200 });
+	} catch (error) {
+		return NextResponse.json(
+			{ error: "Failed to fetch events" },
+			{ status: 500 }
+		);
+	}
+}
+
+// 🔹 POST: Create multiple events
 export async function POST(req: Request) {
 	try {
 		const body = await req.json();
@@ -15,7 +34,6 @@ export async function POST(req: Request) {
 			);
 		}
 
-		// Create multiple events at once
 		const newEvents = await prisma.event.createMany({
 			data: events.map((event) => ({
 				date: new Date(event.date),
@@ -33,6 +51,44 @@ export async function POST(req: Request) {
 	} catch (error) {
 		return NextResponse.json(
 			{ error: "Failed to create events" },
+			{ status: 500 }
+		);
+	}
+}
+
+// 🔹 DELETE: Remove an event by ID (Only if logged in)
+export async function DELETE(req: Request) {
+	try {
+		const session = await getServerSession(authOptions);
+
+		// 🔹 Only allow logged-in users to delete events
+		if (!session) {
+			return NextResponse.json(
+				{ error: "Unauthorized" },
+				{ status: 401 }
+			);
+		}
+
+		const { id } = await req.json();
+
+		if (!id) {
+			return NextResponse.json(
+				{ error: "Event ID is required" },
+				{ status: 400 }
+			);
+		}
+
+		await prisma.event.delete({
+			where: { id },
+		});
+
+		return NextResponse.json(
+			{ message: "Event deleted successfully" },
+			{ status: 200 }
+		);
+	} catch (error) {
+		return NextResponse.json(
+			{ error: "Failed to delete event" },
 			{ status: 500 }
 		);
 	}

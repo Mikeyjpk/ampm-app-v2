@@ -1,6 +1,6 @@
 "use client";
 
-import { useSession, signOut } from "next-auth/react";
+import { useSession } from "next-auth/react";
 import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 import EventForm from "./components/EventForm"; // ✅ Import EventForm component
@@ -52,14 +52,6 @@ export default function ManagePage() {
 					{message && (
 						<p className="mt-2 text-green-500">{message}</p>
 					)}
-
-					{/* Sign Out Button */}
-					<button
-						onClick={() => signOut({ callbackUrl: "/signin" })}
-						className="mt-4 bg-red-500 text-white px-4 py-2 rounded"
-					>
-						Sign Out
-					</button>
 				</div>
 			) : (
 				<p>Redirecting to login...</p>
