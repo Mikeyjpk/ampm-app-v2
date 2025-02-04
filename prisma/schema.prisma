@@ -12,3 +12,12 @@ model User {
   email    String @unique
   password String
 }
+
+model Event {
+  id    String @id @default(auto()) @map("_id") @db.ObjectId
+  date  DateTime
+  title String
+  venue String
+  city  String
+  link  String
+}
