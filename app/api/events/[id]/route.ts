@@ -8,16 +8,14 @@ export async function DELETE(
 	{ params }: { params: { id: string } }
 ) {
 	try {
-		const { id } = params;
+		const { id } = await params;
 
 		console.log("Deleting event with ID:", id); // Debugging log
 
 		// Delete event by ID
-		const deletedEvent = await prisma.event.delete({
+		await prisma.event.delete({
 			where: { id },
 		});
-
-		console.log("Event deleted successfully:", deletedEvent);
 
 		return NextResponse.json(
 			{ message: "Event deleted successfully" },

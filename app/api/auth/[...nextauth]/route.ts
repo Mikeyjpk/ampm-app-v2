@@ -1,4 +1,4 @@
-import NextAuth, { NextAuthOptions } from "next-auth";
+import NextAuth, { NextAuthOptions, SessionStrategy } from "next-auth";
 import CredentialsProvider from "next-auth/providers/credentials";
 import { PrismaClient } from "@prisma/client";
 import bcrypt from "bcrypt";
@@ -42,12 +42,11 @@ export const authOptions: NextAuthOptions = {
 		signIn: "/signin",
 	},
 	session: {
-		strategy: "jwt",
+		strategy: "jwt" as SessionStrategy,
 	},
 	secret: process.env.NEXTAUTH_SECRET,
 	debug: true,
 };
 
-// ✅ Correct way to export API handler
 const handler = NextAuth(authOptions);
 export { handler as GET, handler as POST };
