@@ -27,10 +27,16 @@ const Navbar: React.FC = () => {
 				router.push("/Events");
 				break;
 			case "PHOTO ALBUMS":
-				router.push("/Photos");
+				// todo: replace when photo albums are set up
+				// router.push("/Photos");
+				window.location.href =
+					"https://www.ampmemonight.com/pages/photos";
 				break;
 			case "MERCH STORE":
-				router.push("/Merch");
+				// todo: replace when merch store set up
+				// router.push("/Merch");
+				window.location.href =
+					"https://www.ampmemonight.com/pages/merch";
 				break;
 		}
 		toggleOpen();
@@ -163,10 +169,7 @@ const Navbar: React.FC = () => {
 
 			{/* Upload Event Modal (Renders Outside Navbar Using Portal) */}
 			{showEventModal && (
-				<UploadEventModal
-					onClose={() => setShowEventModal(false)}
-					onSubmit={(events) => console.log("Submit Event: ", events)}
-				/>
+				<UploadEventModal onClose={() => setShowEventModal(false)} />
 			)}
 		</div>
 	);

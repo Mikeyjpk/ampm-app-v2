@@ -14,6 +14,7 @@ export async function GET() {
 
 		return NextResponse.json(events, { status: 200 });
 	} catch (error) {
+		console.error("GET /events error:", error); // Log the error to avoid unused variable
 		return NextResponse.json(
 			{ error: "Failed to fetch events" },
 			{ status: 500 }
@@ -49,6 +50,7 @@ export async function POST(req: Request) {
 			{ status: 201 }
 		);
 	} catch (error) {
+		console.error("POST /events error:", error); // Log the error
 		return NextResponse.json(
 			{ error: "Failed to create events" },
 			{ status: 500 }
@@ -87,6 +89,7 @@ export async function DELETE(req: Request) {
 			{ status: 200 }
 		);
 	} catch (error) {
+		console.error("DELETE /events error:", error); // Log the error
 		return NextResponse.json(
 			{ error: "Failed to delete event" },
 			{ status: 500 }

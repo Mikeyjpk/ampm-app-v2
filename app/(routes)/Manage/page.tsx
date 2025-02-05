@@ -19,9 +19,9 @@ export default function ManagePage() {
 	if (status === "loading") return <p>Loading...</p>;
 
 	return (
-		<div className="flex flex-col items-center justify-center min-h-screen">
+		<div className="flex flex-col items-center justify-center min-h-screen bg-black text-white">
 			{session ? (
-				<div className="flex flex-col justify-center items-center bg-white p-6 rounded shadow-md w-96 gap-y-3">
+				<div className="flex flex-col justify-center items-center  gap-y-3">
 					<h1 className="text-lg font-bold">Authenticated</h1>
 					<FaToolbox size={40} />
 					<p className="text-center text-sm">

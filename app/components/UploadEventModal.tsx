@@ -3,13 +3,7 @@
 import { useState } from "react";
 import ReactDOM from "react-dom";
 
-const UploadEventModal = ({
-	onClose,
-	onSubmit,
-}: {
-	onClose: () => void;
-	onSubmit: (events: any[]) => void;
-}) => {
+const UploadEventModal = ({ onClose }: { onClose: () => void }) => {
 	const [events, setEvents] = useState([
 		{ id: Date.now(), date: "", title: "", venue: "", city: "", link: "" },
 	]);

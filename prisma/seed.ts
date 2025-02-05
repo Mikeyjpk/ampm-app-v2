@@ -4,13 +4,13 @@ const bcrypt = require("bcrypt");
 const prisma = new PrismaClient();
 
 async function main() {
-	const hashedPassword = await bcrypt.hash("password123", 10); // Change this password
+	const hashedPassword = await bcrypt.hash("password123", 10); // Hash the password
 
 	const user = await prisma.user.upsert({
-		where: { email: "a@a" },
+		where: { email: "tom@milgate.com" }, // Ensure this matches the create email
 		update: {},
 		create: {
-			email: "a",
+			email: "tom@milgate.com", // This should match the "where" clause
 			password: hashedPassword,
 		},
 	});
@@ -18,9 +18,10 @@ async function main() {
 	console.log("Admin user created:", user);
 }
 
+// Run the seed script
 main()
 	.catch((e) => {
-		console.error(e);
+		console.error("Error seeding database:", e);
 		process.exit(1);
 	})
 	.finally(async () => {

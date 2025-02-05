@@ -2,7 +2,6 @@
 
 import { useEffect, useState } from "react";
 import { useSession } from "next-auth/react";
-import { MdOutlineDeleteForever } from "react-icons/md";
 import { TiDelete } from "react-icons/ti";
 
 import dayjs from "dayjs";
@@ -37,8 +36,12 @@ const EventsPage = () => {
 
 				const data: Event[] = await res.json();
 				setEvents(data);
-			} catch (err: any) {
-				setError(err.message);
+			} catch (err: unknown) {
+				if (err instanceof Error) {
+					setError(err.message);
+				} else {
+					setError("An unknown error occurred");
+				}
 			} finally {
 				setLoading(false);
 			}
@@ -67,9 +70,20 @@ const EventsPage = () => {
 	};
 
 	function formatDateWithSuffix(dateString: string): string {
-		const date = dayjs(dateString, "MM/DD/YYYY"); // Adjust format if needed
+		// Debugging log to see what the date is before parsing
+		console.log("Raw event date:", dateString);
+
+		// Explicitly parse the date using the correct format
+		const date = dayjs(
+			dateString,
+			["DD/MM/YYYY", "YYYY-MM-DDTHH:mm:ss.SSSZ"],
+			true
+		);
+
+		// If still invalid, return a default error message
 		if (!date.isValid()) {
-			throw new Error("Invalid date");
+			console.error("Invalid date format received:", dateString);
+			return "Invalid Date";
 		}
 
 		const day = date.date();
@@ -115,7 +129,6 @@ const EventsPage = () => {
 						>
 							{/* Left display */}
 							<div className="flex flex-col">
-								{/* Date Badge */}
 								<span className="text-white font-semibold text-xs">
 									{formatDateWithSuffix(
 										new Date(
@@ -123,15 +136,12 @@ const EventsPage = () => {
 										).toLocaleDateString()
 									)}
 								</span>
-
-								{/* Event Title */}
 								<h2 className="text-xl font-semibold text-white line-clamp-2 overflow-hidden">
 									{event.title}
 								</h2>
 
-								{/* Venue & City */}
 								<p className="text-gray-400 text-xs">
-									{event.venue} // {event.city}
+									{event.venue} {"//"} {event.city}
 								</p>
 							</div>
 
