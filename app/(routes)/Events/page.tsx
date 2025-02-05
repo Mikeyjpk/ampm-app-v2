@@ -3,6 +3,7 @@
 import { useEffect, useState } from "react";
 import { useSession } from "next-auth/react";
 import { MdOutlineDeleteForever } from "react-icons/md";
+import { TiDelete } from "react-icons/ti";
 
 import dayjs from "dayjs";
 import localizedFormat from "dayjs/plugin/localizedFormat";
@@ -110,53 +111,53 @@ const EventsPage = () => {
 					{events.map((event) => (
 						<li
 							key={event.id}
-							className="relative flex flex-col gap-3 p-4 bg-neutral-900 shadow-lg border border-neutral-700 rounded-2xl transition-all hover:shadow-xl"
+							className="relative flex w-full justify-between items-center px-4 py-3 bg-neutral-900 shadow-lg border border-neutral-700 rounded-2xl hover:shadow-xl"
 						>
-							{/* Top Row: Date + Venue */}
-							<div className="flex justify-between items-center">
-								{/* Venue & City */}
-								<p className="text-gray-400 text-xs">
-									📍 {event.venue} // {event.city}
-								</p>
-
+							{/* Left display */}
+							<div className="flex flex-col">
 								{/* Date Badge */}
-								<span className="bg-blue-500 text-white px-3 py-1 text-xs font-semibold rounded-lg">
+								<span className="text-white font-semibold text-xs">
 									{formatDateWithSuffix(
 										new Date(
 											event.date
 										).toLocaleDateString()
 									)}
 								</span>
+
+								{/* Event Title */}
+								<h2 className="text-xl font-semibold text-white line-clamp-2 overflow-hidden">
+									{event.title}
+								</h2>
+
+								{/* Venue & City */}
+								<p className="text-gray-400 text-xs">
+									{event.venue} // {event.city}
+								</p>
 							</div>
 
-							{/* Event Title */}
-							<h2 className="text-xl font-semibold text-white">
-								{event.title}
-							</h2>
-
-							{/* Event Link */}
+							{/* ticket link */}
 							<a
 								href={event.link}
 								target="_blank"
-								className="inline-block mt-2 text-blue-400 hover:text-blue-300 transition duration-300"
+								className={`min-w-20 inline-block text-blue-400 hover:text-blue-300 transition ml-3 duration-300 ${
+									session ? "mt-4" : ""
+								}`}
 							>
-								🔗 View Event
+								View Event
 							</a>
 
-							{/* ✅ Keep Delete Button Separate from Layout
+							{/* ✅ Keep Delete Button Separate from Layout */}
 							{session && (
-								<div className="flex justify-end mt-2">
-									<button
-										onClick={() => handleDelete(event.id)}
-										className="bg-red-600 rounded-xl p-2"
-									>
-										<MdOutlineDeleteForever
-											className="text-white"
-											size={18}
-										/>
-									</button>
-								</div>
-							)} */}
+								<button
+									onClick={() => handleDelete(event.id)}
+									className="absolute top-2 right-2"
+								>
+									<TiDelete
+										size={24}
+										className="text-red-600"
+									/>
+								</button>
+							)}
 						</li>
 					))}
 				</ul>

@@ -3,7 +3,7 @@
 import { useSession } from "next-auth/react";
 import { useRouter } from "next/navigation";
 import { useEffect } from "react";
-import EventForm from "./components/EventForm"; // ✅ Import EventForm component
+import { FaToolbox } from "react-icons/fa";
 
 export default function ManagePage() {
 	const { data: session, status } = useSession();
@@ -21,9 +21,12 @@ export default function ManagePage() {
 	return (
 		<div className="flex flex-col items-center justify-center min-h-screen">
 			{session ? (
-				<div className="bg-white p-6 rounded shadow-md w-96">
-					<h1 className="text-lg font-bold mb-4">Authenticated</h1>
-					<p>You can now manage the app</p>
+				<div className="flex flex-col justify-center items-center bg-white p-6 rounded shadow-md w-96 gap-y-3">
+					<h1 className="text-lg font-bold">Authenticated</h1>
+					<FaToolbox size={40} />
+					<p className="text-center text-sm">
+						You can now access admin tools from any page
+					</p>
 				</div>
 			) : (
 				<p>Redirecting to login...</p>
