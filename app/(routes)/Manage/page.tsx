@@ -2,13 +2,12 @@
 
 import { useSession } from "next-auth/react";
 import { useRouter } from "next/navigation";
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
 import EventForm from "./components/EventForm"; // ✅ Import EventForm component
 
 export default function ManagePage() {
 	const { data: session, status } = useSession();
 	const router = useRouter();
-	const [message, setMessage] = useState("");
 
 	// Redirect unauthenticated users
 	useEffect(() => {
@@ -17,41 +16,14 @@ export default function ManagePage() {
 		}
 	}, [status, router]);
 
-	// Handle submitting multiple events
-	const handleEventSubmit = async (events: any[]) => {
-		setMessage("");
-
-		const res = await fetch("/api/events", {
-			method: "POST",
-			headers: { "Content-Type": "application/json" },
-			body: JSON.stringify({ events }), // 🔹 Send multiple events
-		});
-
-		if (res.ok) {
-			setMessage("Events added successfully!");
-		} else {
-			const errorData = await res.json();
-			setMessage(errorData.error || "Failed to add events.");
-		}
-	};
-
 	if (status === "loading") return <p>Loading...</p>;
 
 	return (
 		<div className="flex flex-col items-center justify-center min-h-screen">
 			{session ? (
 				<div className="bg-white p-6 rounded shadow-md w-96">
-					<h1 className="text-lg font-bold mb-4">
-						Welcome, {session.user?.email}!
-					</h1>
-					<p>You can now manage your events.</p>
-
-					{/* Event Form Component */}
-					<EventForm onSubmit={handleEventSubmit} />
-
-					{message && (
-						<p className="mt-2 text-green-500">{message}</p>
-					)}
+					<h1 className="text-lg font-bold mb-4">Authenticated</h1>
+					<p>You can now manage the app</p>
 				</div>
 			) : (
 				<p>Redirecting to login...</p>

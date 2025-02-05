@@ -4,15 +4,19 @@ import { useState, useEffect } from "react";
 import { motion, AnimatePresence, Variants } from "framer-motion";
 import { useRouter } from "next/navigation";
 import { useSession, signOut } from "next-auth/react";
+import UploadEventModal from "./UploadEventModal"; // ✅ Import modal
+import { FaToolbox } from "react-icons/fa";
 
 const Navbar: React.FC = () => {
 	const { data: session } = useSession(); // 🔹 Get session data
 	const [isOpen, setIsOpen] = useState<boolean>(false);
+	const [showAdminDropdown, setShowAdminDropdown] = useState<boolean>(false);
+	const [showEventModal, setShowEventModal] = useState<boolean>(false);
+
 	const router = useRouter();
 
-	const toggleOpen = () => {
-		setIsOpen((prev) => !prev);
-	};
+	const toggleOpen = () => setIsOpen((prev) => !prev);
+	const toggleAdminDropdown = () => setShowAdminDropdown((prev) => !prev);
 
 	const navTo = (route: string) => {
 		switch (route) {
@@ -32,6 +36,11 @@ const Navbar: React.FC = () => {
 		toggleOpen();
 	};
 
+	const handleSignOut = async () => {
+		await signOut({ redirect: false });
+		router.refresh();
+	};
+
 	// Disable scrolling when the menu is open
 	useEffect(() => {
 		if (isOpen) {
@@ -39,8 +48,6 @@ const Navbar: React.FC = () => {
 		} else {
 			document.body.style.overflow = "auto";
 		}
-
-		// Cleanup when component unmounts
 		return () => {
 			document.body.style.overflow = "auto";
 		};
@@ -71,33 +78,52 @@ const Navbar: React.FC = () => {
 		}),
 	};
 
-	const handleSignOut = async () => {
-		await signOut({ redirect: false });
-		router.refresh();
-	};
-
 	return (
-		<div className="fixed top-0 left-1/2 transform -translate-x-1/2 w-full max-w-4xl flex justify-end items-center font-semibold z-50">
+		<div className="fixed top-0 left-1/2 transform -translate-x-1/2 w-full max-w-4xl flex justify-between items-center font-semibold z-50 px-6 py-3 bg-transparent">
+			{/* 🔹 Admin Tools (Only visible if logged in) */}
+			{session && (
+				<div className="relative">
+					<button
+						onClick={toggleAdminDropdown}
+						className="text-white transition"
+					>
+						<FaToolbox size={26} className="mt-2" />
+					</button>
+
+					{/* Dropdown */}
+					{showAdminDropdown && (
+						<div className="absolute top-full left-0 mt-2 w-40 bg-white shadow-md rounded">
+							{/* add event button */}
+							<button
+								onClick={() => {
+									setShowEventModal(true);
+									setShowAdminDropdown(false);
+								}}
+								className="block w-full text-left px-4 py-2"
+							>
+								Add Event
+							</button>
+							{/* sign out button */}
+							<button
+								onClick={handleSignOut}
+								className="block w-full text-left px-4 py-2 "
+							>
+								Sign Out
+							</button>
+						</div>
+					)}
+				</div>
+			)}
+
+			{/* Menu Toggle Button */}
 			<button
 				onClick={toggleOpen}
-				className={`py-3 px-4 text-sm z-50 ${
+				className={`py-3 px-4 text-sm z-50 absolute right-2 top-3 ${
 					isOpen ? "text-black hover:text-black/80" : "text-white"
 				}`}
 			>
 				{isOpen ? <p>CLOSE</p> : <p>MENU</p>}
 			</button>
-
-			{/* sign out button	*/}
-			{session && (
-				<button
-					onClick={handleSignOut}
-					className={`  transition px-4 py-2 absolute left-0 z-50 ${
-						isOpen ? "text-black hover:text-black/80" : "text-white"
-					}`}
-				>
-					Sign Out
-				</button>
-			)}
 
 			{/* AnimatePresence ensures proper unmounting animations */}
 			<AnimatePresence>
@@ -134,6 +160,14 @@ const Navbar: React.FC = () => {
 					</motion.div>
 				)}
 			</AnimatePresence>
+
+			{/* Upload Event Modal (Renders Outside Navbar Using Portal) */}
+			{showEventModal && (
+				<UploadEventModal
+					onClose={() => setShowEventModal(false)}
+					onSubmit={(events) => console.log("Submit Event: ", events)}
+				/>
+			)}
 		</div>
 	);
 };
