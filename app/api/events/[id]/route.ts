@@ -5,12 +5,12 @@ const prisma = new PrismaClient();
 
 export async function DELETE(
 	req: Request,
-	{ params }: { params: { id: string } }
+	{ params }: { params: Promise<{ id: string }> }
 ) {
 	try {
 		const { id } = await params;
 
-		console.log("Deleting event with ID:", id); // Debugging log
+		console.log("Deleting event with ID:", id);
 
 		// Delete event by ID
 		await prisma.event.delete({

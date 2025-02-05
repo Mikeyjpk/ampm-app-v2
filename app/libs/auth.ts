@@ -1,12 +1,11 @@
-import NextAuth, { NextAuthOptions } from "next-auth";
+import { NextAuthOptions } from "next-auth";
 import CredentialsProvider from "next-auth/providers/credentials";
 import { PrismaClient } from "@prisma/client";
 import bcrypt from "bcrypt";
 
 const prisma = new PrismaClient();
 
-// ❌ Do NOT export this variable (causes TS error)
-const authOptions: NextAuthOptions = {
+export const authOptions: NextAuthOptions = {
 	providers: [
 		CredentialsProvider({
 			name: "Credentials",
@@ -48,7 +47,3 @@ const authOptions: NextAuthOptions = {
 	secret: process.env.NEXTAUTH_SECRET,
 	debug: true,
 };
-
-// ✅ Only export the NextAuth handler, not `authOptions`
-const handler = NextAuth(authOptions);
-export { handler as GET, handler as POST };
