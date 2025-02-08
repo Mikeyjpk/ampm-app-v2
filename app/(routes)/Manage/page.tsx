@@ -13,6 +13,9 @@ export default function ManagePage() {
 	useEffect(() => {
 		if (status === "unauthenticated") {
 			router.replace("/signin");
+		} else if (status === "authenticated") {
+			// Manually refresh the session to ensure it's updated
+			router.replace("/manage");
 		}
 	}, [status, router]);
 

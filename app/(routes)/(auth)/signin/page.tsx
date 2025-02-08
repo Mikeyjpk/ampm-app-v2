@@ -9,11 +9,19 @@ export default function SignInPage() {
 
 	const handleSubmit = async (e: React.FormEvent) => {
 		e.preventDefault();
-		await signIn("credentials", {
+		const res = await signIn("credentials", {
 			email,
 			password,
-			callbackUrl: "/Manage",
+			redirect: false, // ⬅ Prevent NextAuth from handling redirection
 		});
+
+		if (res?.error) {
+			console.error("Login failed:", res.error);
+			return;
+		}
+
+		// Reload the page manually to update session state
+		window.location.href = "/manage"; // ⬅ Forces a redirect to update the session
 	};
 
 	return (

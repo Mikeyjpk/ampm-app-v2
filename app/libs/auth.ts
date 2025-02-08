@@ -1,4 +1,4 @@
-import { NextAuthOptions } from "next-auth";
+import NextAuth, { NextAuthOptions } from "next-auth";
 import CredentialsProvider from "next-auth/providers/credentials";
 import { PrismaClient } from "@prisma/client";
 import bcrypt from "bcrypt";
@@ -43,7 +43,36 @@ export const authOptions: NextAuthOptions = {
 	},
 	session: {
 		strategy: "jwt",
+		maxAge: 30 * 24 * 60 * 60, // 30 days
+	},
+	cookies: {
+		sessionToken: {
+			name: `next-auth.session-token`,
+			options: {
+				httpOnly: true,
+				sameSite: "lax", // Ensure compatibility with mobile browsers
+				secure: process.env.NODE_ENV === "production",
+				path: "/",
+			},
+		},
+	},
+	callbacks: {
+		async jwt({ token, user }) {
+			if (user) {
+				token.id = user.id; // Store the user ID in the token
+			}
+			return token;
+		},
+		async session({ session, token }) {
+			if (session.user) {
+				session.user.id = token.id as string;
+			}
+			return session;
+		},
 	},
 	secret: process.env.NEXTAUTH_SECRET,
-	debug: true,
+	debug: true, // Enable debug mode to log session issues
 };
+
+const handler = NextAuth(authOptions);
+export { handler as GET, handler as POST };
