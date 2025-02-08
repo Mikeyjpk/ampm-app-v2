@@ -131,9 +131,6 @@ const Navbar: React.FC = () => {
 				{isOpen ? <p>CLOSE</p> : <p>MENU</p>}
 			</button>
 
-			{/* debug */}
-			<div>{session && <p>User is logged in</p>}</div>
-
 			{/* AnimatePresence ensures proper unmounting animations */}
 			<AnimatePresence>
 				{isOpen && (

@@ -108,6 +108,7 @@ const EventsPage = () => {
 	}
 
 	if (loading) return <p>Loading events...</p>;
+
 	if (error) return <p className="text-red-500">Error: {error}</p>;
 
 	return (
