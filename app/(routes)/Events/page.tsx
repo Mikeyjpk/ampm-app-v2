@@ -122,7 +122,7 @@ const EventsPage = () => {
 			</h1>
 
 			{events.length === 0 ? (
-				<p className="text-gray-300 text-lg text-center">
+				<p className="text-gray-300 text-lg text-center py-10">
 					No events found.
 				</p>
 			) : (
@@ -135,7 +135,7 @@ const EventsPage = () => {
 							rel="noopener noreferrer"
 							className="block"
 						>
-							<li className="flex w-full flex-row justify-between items-center px-3 py-3 border-[1px] rounded-lg hover:shadow-xl cursor-pointer transition-all duration-300 sm:px-6 md:px-10 bg-black/60">
+							<li className="flex w-full flex-row justify-between items-center px-3 py-3 border-[0.1rem] rounded-lg hover:shadow-xl cursor-pointer transition-all duration-300 sm:px-6 md:px-10 bg-black/60">
 								<div className="flex flex-col">
 									{/* DATE */}
 									<span className="font-semibold text-[0.7rem] font-times capitalize tracking-wide">
