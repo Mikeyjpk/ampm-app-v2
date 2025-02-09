@@ -122,11 +122,11 @@ const EventsPage = () => {
 					No events found.
 				</p>
 			) : (
-				<ul className="w-full max-w-3xl space-y-4">
+				<ul className="w-full max-w-3xl space-y-3">
 					{events.map((event) => (
 						<li
 							key={event.id}
-							className="relative flex w-full justify-between items-center px-4 py-3 bg-neutral-900 shadow-lg border border-neutral-700 rounded-2xl hover:shadow-xl"
+							className="relative flex w-full justify-between items-center px-4 py-3 bg-neutral-900 shadow-lg border border-neutral-700 rounded-lg hover:shadow-xl"
 						>
 							{/* Left display */}
 							<div className="flex flex-col">
@@ -154,7 +154,7 @@ const EventsPage = () => {
 									session ? "mt-4" : ""
 								}`}
 							>
-								View Event
+								TICKETS
 							</a>
 
 							{/* ✅ Keep Delete Button Separate from Layout */}
