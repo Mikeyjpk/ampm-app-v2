@@ -64,9 +64,6 @@ const HomePageVideo = () => {
 			{/* Show loading animation while video is loading */}
 			{isLoading && (
 				<div className="absolute inset-0 flex flex-col justify-center items-center bg-black z-10 gap-10">
-					<p className="text-white font-times text-sm">
-						EMO NEVER SLEEPS
-					</p>
 					<div className="w-12 h-12 border-4 border-white border-t-transparent rounded-full animate-spin"></div>
 				</div>
 			)}
