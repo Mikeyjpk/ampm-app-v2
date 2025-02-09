@@ -22,11 +22,9 @@ export default function RootLayout({
 }>) {
 	return (
 		<html lang="en">
-			<body className={`${inter.variable} antialiased`}>
+			<body className={`font-sans ${inter.variable} antialiased`}>
 				<SessionProvider>
-					{" "}
-					{/* ✅ Wrap inside client SessionProvider */}
-					{/* Background texture */}
+					{/* ✅ Background texture */}
 					<div
 						className="fixed inset-0 w-full h-screen bg-cover bg-center bg-no-repeat opacity-20 pointer-events-none z-[9999]"
 						style={{
