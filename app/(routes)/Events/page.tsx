@@ -72,12 +72,17 @@ const EventsPage = () => {
 	function formatDateWithSuffix(dateString: string): string {
 		console.log("Raw event date:", dateString); // Debugging log
 
-		// Explicitly parse different formats, including Australian format (DD/MM/YYYY)
+		// Ensure dateString is in a recognizable format
 		const date = dayjs(
 			dateString,
-			["DD/MM/YYYY", "YYYY-MM-DD", "YYYY-MM-DDTHH:mm:ss.SSSZ"],
-			true
-		);
+			[
+				"DD/MM/YYYY",
+				"YYYY-MM-DD",
+				"YYYY-MM-DDTHH:mm:ss.SSSZ",
+				"MM/DD/YYYY", // Fallback for US-based browsers
+			],
+			false
+		); // Disable strict mode for better compatibility
 
 		// Check if date is valid
 		if (!date.isValid()) {
@@ -139,11 +144,7 @@ const EventsPage = () => {
 								<div className="flex flex-col">
 									{/* DATE */}
 									<span className="font-semibold text-[0.7rem] font-times capitalize tracking-wide">
-										{formatDateWithSuffix(
-											new Date(
-												event.date
-											).toLocaleDateString()
-										)}
+										{formatDateWithSuffix(event.date)}
 									</span>
 
 									{/* TITLE */}
