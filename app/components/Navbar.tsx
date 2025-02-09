@@ -85,7 +85,7 @@ const Navbar: React.FC = () => {
 	};
 
 	return (
-		<div className="fixed top-0 left-1/2 transform -translate-x-1/2 w-full max-w-4xl flex justify-between items-center font-semibold z-50 px-6 py-3 bg-transparent">
+		<div className="fixed top-0 left-1/2 transform -translate-x-1/2 w-full max-w-4xl flex justify-between items-center font-semibold z-50 px-6 py-3 bg-transparent select-none">
 			{/* 🔹 Admin Tools (Only visible if logged in) */}
 			{session && (
 				<div className="relative">

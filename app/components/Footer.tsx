@@ -12,7 +12,7 @@ import { SiThreads } from "react-icons/si";
 
 const Footer = () => {
 	return (
-		<footer className="w-full flex flex-col items-center text-center select-none font-times py-5 gap-y-1">
+		<footer className="w-full flex flex-col items-center text-center select-none font-times py-5 gap-y-1 bg-white mix-blend-difference">
 			<div className="flex flex-col uppercase">
 				{/* Branding / Tagline */}
 				<div className="text-sm tracking-[.04rem]">

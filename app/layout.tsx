@@ -26,7 +26,7 @@ export default function RootLayout({
 				<SessionProvider>
 					{/* ✅ Background texture */}
 					<div
-						className="fixed inset-0 w-full h-screen bg-cover bg-center bg-no-repeat opacity-20 pointer-events-none z-[9999]"
+						className="fixed inset-0 w-full h-screen bg-cover bg-center pointer-events-none z-[-1]"
 						style={{
 							backgroundImage: "url('/images/background.jpg')",
 						}}
