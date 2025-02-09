@@ -24,7 +24,7 @@ export default function RootLayout({
 		<html lang="en">
 			<body className={`font-sans ${inter.variable} antialiased`}>
 				<SessionProvider>
-					{/* ✅ Background texture */}
+					{/* Background texture */}
 					<div
 						className="fixed inset-0 w-full h-screen bg-cover bg-center pointer-events-none z-[-1]"
 						style={{

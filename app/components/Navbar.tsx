@@ -99,7 +99,7 @@ const Navbar: React.FC = () => {
 					{/* Dropdown */}
 					{showAdminDropdown && (
 						<div className="absolute top-full left-0 mt-2 w-40 bg-white shadow-md rounded">
-							{/* add event button */}
+							{/* Add Event Button */}
 							<button
 								onClick={() => {
 									setShowEventModal(true);
@@ -109,10 +109,39 @@ const Navbar: React.FC = () => {
 							>
 								Add Event
 							</button>
-							{/* sign out button */}
+
+							{/* Clear Old Events Button */}
+							<button
+								onClick={async () => {
+									try {
+										const res = await fetch(
+											"/api/events/clear-old",
+											{ method: "DELETE" }
+										);
+										const data = await res.json();
+										alert(
+											data.message ||
+												"Old events cleared!"
+										);
+										setShowAdminDropdown(false);
+										router.refresh(); // ✅ Refresh the page to update UI
+									} catch (error) {
+										console.error(
+											"Error clearing old events:",
+											error
+										);
+										alert("Failed to clear old events.");
+									}
+								}}
+								className="block w-full text-left px-4 py-2"
+							>
+								Clear Old Events
+							</button>
+
+							{/* Sign Out Button */}
 							<button
 								onClick={handleSignOut}
-								className="block w-full text-left px-4 py-2 "
+								className="block w-full text-left px-4 py-2"
 							>
 								Sign Out
 							</button>

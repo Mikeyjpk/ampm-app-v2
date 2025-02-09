@@ -128,7 +128,7 @@ const EventsPage = () => {
 
 			{events.length === 0 ? (
 				<p className="text-gray-300 text-lg text-center py-10">
-					No events found.
+					no events found.
 				</p>
 			) : (
 				<ul className="w-full max-w-3xl space-y-3 pb-5">
@@ -143,7 +143,7 @@ const EventsPage = () => {
 							<li className="flex w-full flex-row justify-between items-center px-3 py-3 border-[0.1rem] rounded-lg hover:shadow-xl cursor-pointer transition-all duration-300 sm:px-6 md:px-10 bg-black/60">
 								<div className="flex flex-col">
 									{/* DATE */}
-									<span className="font-semibold text-[0.7rem] font-times capitalize tracking-wide">
+									<span className="font-semibold text-[0.7rem] font-times tracking-wide lowercase">
 										{formatDateWithSuffix(event.date)}
 									</span>
 
@@ -153,7 +153,7 @@ const EventsPage = () => {
 									</h2>
 
 									{/* LOCATION */}
-									<p className="text-gray-400 text-[0.8rem] tracking-wide capitalize -mt-1">
+									<p className="text-gray-400 text-[0.8rem] tracking-wide -mt-1">
 										{event.venue}
 										{" // "}
 										{event.city}
