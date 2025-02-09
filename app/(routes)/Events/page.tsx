@@ -70,17 +70,16 @@ const EventsPage = () => {
 	};
 
 	function formatDateWithSuffix(dateString: string): string {
-		// Debugging log to see what the date is before parsing
-		console.log("Raw event date:", dateString);
+		console.log("Raw event date:", dateString); // Debugging log
 
-		// Explicitly parse the date using the correct format
+		// Explicitly parse different formats, including Australian format (DD/MM/YYYY)
 		const date = dayjs(
 			dateString,
-			["DD/MM/YYYY", "YYYY-MM-DDTHH:mm:ss.SSSZ"],
+			["DD/MM/YYYY", "YYYY-MM-DD", "YYYY-MM-DDTHH:mm:ss.SSSZ"],
 			true
 		);
 
-		// If still invalid, return a default error message
+		// Check if date is valid
 		if (!date.isValid()) {
 			console.error("Invalid date format received:", dateString);
 			return "Invalid Date";
@@ -136,8 +135,8 @@ const EventsPage = () => {
 							rel="noopener noreferrer"
 							className="block"
 						>
-							<li className="flex w-full justify-between items-center px-2 py-3 border-[1px] rounded-lg hover:shadow-xl cursor-pointer transition-all duration-300 sm:px-6 md:px-10 bg-black/60">
-								<div className="flex flex-col w-full">
+							<li className="flex w-full flex-row justify-between items-center px-3 py-3 border-[1px] rounded-lg hover:shadow-xl cursor-pointer transition-all duration-300 sm:px-6 md:px-10 bg-black/60">
+								<div className="flex flex-col">
 									{/* DATE */}
 									<span className="font-semibold text-[0.7rem] font-times capitalize tracking-wide">
 										{formatDateWithSuffix(
