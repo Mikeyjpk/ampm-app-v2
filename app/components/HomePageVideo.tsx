@@ -60,7 +60,7 @@ const HomePageVideo = () => {
 	};
 
 	return (
-		<div className="w-full h-screen overflow-hidden relative">
+		<div className="w-full h-screen overflow-hidden relative mix-blend-lighten">
 			{/* Show loading animation while video is loading */}
 			{isLoading && (
 				<div className="absolute inset-0 flex flex-col justify-center items-center bg-black z-10 gap-10">
