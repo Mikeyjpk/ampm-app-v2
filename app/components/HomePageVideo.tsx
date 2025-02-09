@@ -3,26 +3,26 @@
 import { useState, useRef, useEffect } from "react";
 
 const HomePageVideo = () => {
-	const [isLoading, setIsLoading] = useState(true);
-	const [showPlayButton, setShowPlayButton] = useState(false);
+	const [isLoading, setIsLoading] = useState<boolean>(true);
+	const [showPlayButton, setShowPlayButton] = useState<boolean>(false);
 	const videoRef = useRef<HTMLVideoElement | null>(null);
 
 	useEffect(() => {
 		const video = videoRef.current;
 		if (!video) return;
 
-		// ✅ Ensure state updates when video is fully loaded
+		// Ensure state updates when video is fully loaded
 		const handleLoadedData = () => {
 			setIsLoading(false);
 		};
 
-		// ✅ Handle autoplay failure (e.g., due to browser restrictions)
-		const handleAutoplayError = (err: any) => {
+		// Handle autoplay failure (e.g., due to browser restrictions)
+		const handleAutoplayError = (err: Error) => {
 			console.error("Autoplay blocked:", err);
 			setShowPlayButton(true);
 		};
 
-		// ✅ Attempt to autoplay when video is loaded
+		// Attempt to autoplay when video is loaded
 		const tryAutoplay = () => {
 			video
 				.play()
@@ -30,12 +30,12 @@ const HomePageVideo = () => {
 				.catch(handleAutoplayError); // Autoplay failed
 		};
 
-		// ✅ Double-check state update after first render
+		// Double-check state update after first render
 		video.addEventListener("loadeddata", handleLoadedData);
 		video.addEventListener("canplaythrough", tryAutoplay);
 		video.addEventListener("playing", () => setIsLoading(false));
 
-		// ✅ Manually check if video is ready
+		// Manually check if video is ready
 		if (video.readyState >= 3) {
 			handleLoadedData();
 			tryAutoplay();
@@ -53,8 +53,10 @@ const HomePageVideo = () => {
 		const video = videoRef.current;
 		if (!video) return;
 		video.muted = false; // Unmute if user interacts
-		video.play().catch((err) => console.error("Play failed:", err));
-		setShowPlayButton(false);
+		video
+			.play()
+			.then(() => setShowPlayButton(false))
+			.catch((err: Error) => console.error("Play failed:", err));
 	};
 
 	return (
