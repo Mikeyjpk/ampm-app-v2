@@ -116,8 +116,8 @@ const EventsPage = () => {
 	if (error) return <p className="text-red-500">Error: {error}</p>;
 
 	return (
-		<div className="flex flex-col items-center text-white min-h-screen w-full px-2 select-none">
-			<h1 className="text-3xl font-black mb-6 text-center mt-16">
+		<div className="flex flex-col items-center text-white min-h-screen w-full px-2 select-none ">
+			<h1 className="text-3xl font-black mb-6 text-center mt-16 ">
 				UPCOMING EVENTS
 			</h1>
 

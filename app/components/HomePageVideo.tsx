@@ -4,49 +4,80 @@ import { useState, useRef, useEffect } from "react";
 
 const HomePageVideo = () => {
 	const [isLoading, setIsLoading] = useState(true);
+	const [showPlayButton, setShowPlayButton] = useState(false);
 	const videoRef = useRef<HTMLVideoElement | null>(null);
 
 	useEffect(() => {
 		const video = videoRef.current;
 		if (!video) return;
 
-		// ✅ Ensure state updates when video is ready
-		const handleCanPlay = () => {
-			setIsLoading(false); // Ensure React updates state properly
+		// ✅ Ensure state updates when video is fully loaded
+		const handleLoadedData = () => {
+			setIsLoading(false);
+		};
+
+		// ✅ Handle autoplay failure (e.g., due to browser restrictions)
+		const handleAutoplayError = (err: any) => {
+			console.error("Autoplay blocked:", err);
+			setShowPlayButton(true);
+		};
+
+		// ✅ Attempt to autoplay when video is loaded
+		const tryAutoplay = () => {
 			video
 				.play()
-				.catch((err) => console.error("Autoplay blocked:", err));
+				.then(() => setShowPlayButton(false)) // Autoplay successful
+				.catch(handleAutoplayError); // Autoplay failed
 		};
 
 		// ✅ Double-check state update after first render
-		const handlePlaying = () => setIsLoading(false);
-		const handleWaiting = () => setIsLoading(true);
+		video.addEventListener("loadeddata", handleLoadedData);
+		video.addEventListener("canplaythrough", tryAutoplay);
+		video.addEventListener("playing", () => setIsLoading(false));
 
-		video.addEventListener("canplaythrough", handleCanPlay);
-		video.addEventListener("playing", handlePlaying);
-		video.addEventListener("waiting", handleWaiting);
-
-		// ✅ Manually check if video is ready (fixes stale state issue)
+		// ✅ Manually check if video is ready
 		if (video.readyState >= 3) {
-			handleCanPlay();
+			handleLoadedData();
+			tryAutoplay();
 		}
 
 		return () => {
-			video.removeEventListener("canplaythrough", handleCanPlay);
-			video.removeEventListener("playing", handlePlaying);
-			video.removeEventListener("waiting", handleWaiting);
+			video.removeEventListener("loadeddata", handleLoadedData);
+			video.removeEventListener("canplaythrough", tryAutoplay);
+			video.removeEventListener("playing", () => setIsLoading(false));
 		};
 	}, []);
 
+	// Handle manual play button click
+	const handlePlayClick = () => {
+		const video = videoRef.current;
+		if (!video) return;
+		video.muted = false; // Unmute if user interacts
+		video.play().catch((err) => console.error("Play failed:", err));
+		setShowPlayButton(false);
+	};
+
 	return (
 		<div className="w-full h-screen overflow-hidden relative">
-			{/* ✅ Show loading animation while video is buffering */}
+			{/* Show loading animation while video is loading */}
 			{isLoading && (
 				<div className="absolute inset-0 flex flex-col justify-center items-center bg-black z-10 gap-10">
 					<p className="text-white font-times text-sm">
 						EMO NEVER SLEEPS
 					</p>
 					<div className="w-12 h-12 border-4 border-white border-t-transparent rounded-full animate-spin"></div>
+				</div>
+			)}
+
+			{/* Show "Tap to Play" button if autoplay is blocked */}
+			{showPlayButton && !isLoading && (
+				<div className="absolute inset-0 flex justify-center items-center bg-black/50 z-10">
+					<button
+						onClick={handlePlayClick}
+						className="bg-white text-black px-6 py-2 font-bold text-lg rounded-md shadow-lg"
+					>
+						Tap to Play ▶
+					</button>
 				</div>
 			)}
 
@@ -65,6 +96,3 @@ const HomePageVideo = () => {
 };
 
 export default HomePageVideo;
-<a href="https://www.vecteezy.com/vector-art/47544548-vintage-retro-woman-shocking">
-	Vintage Retro Woman Shocking ... Vectors by Vecteezy
-</a>;
