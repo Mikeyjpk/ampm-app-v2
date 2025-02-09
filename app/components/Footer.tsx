@@ -1,6 +1,5 @@
 "use client";
 
-import { useState, useEffect } from "react";
 import {
 	FaFacebookF,
 	FaTwitter,
@@ -11,8 +10,6 @@ import {
 } from "react-icons/fa";
 
 const Footer = () => {
-	// Define color options
-
 	return (
 		<footer className="w-full flex flex-col items-center text-center select-none font-times py-8 gap-4">
 			<div className="flex flex-col ">
