@@ -107,12 +107,17 @@ const EventsPage = () => {
 		return `${day}${getOrdinalSuffix(day)} ${month}`;
 	}
 
-	if (loading) return <p>Loading events...</p>;
+	if (loading)
+		return (
+			<div className="flex justify-center items-center min-h-screen">
+				<div className="w-10 h-10 border-4 border-neutral-600 border-t-white rounded-full animate-spin"></div>
+			</div>
+		);
 
 	if (error) return <p className="text-red-500">Error: {error}</p>;
 
 	return (
-		<div className="flex flex-col items-center bg-black text-white min-h-screen w-full px-4 select-none">
+		<div className="flex flex-col items-center text-white min-h-screen w-full px-2 select-none">
 			<h1 className="text-3xl font-black mb-6 text-center mt-16">
 				UPCOMING EVENTS
 			</h1>
@@ -122,54 +127,68 @@ const EventsPage = () => {
 					No events found.
 				</p>
 			) : (
-				<ul className="w-full max-w-3xl space-y-3">
+				<ul className="w-full max-w-3xl space-y-3 pb-5">
 					{events.map((event) => (
-						<li
+						<a
 							key={event.id}
-							className="relative flex w-full justify-between items-center px-4 py-3 bg-neutral-900 shadow-lg border border-neutral-700 rounded-lg hover:shadow-xl"
+							href={event.link}
+							target="_blank"
+							rel="noopener noreferrer"
+							className="block"
 						>
-							{/* Left display */}
-							<div className="flex flex-col">
-								<span className="text-white font-semibold text-xs">
-									{formatDateWithSuffix(
-										new Date(
-											event.date
-										).toLocaleDateString()
-									)}
-								</span>
-								<h2 className="text-xl font-semibold text-white line-clamp-2 overflow-hidden">
-									{event.title}
-								</h2>
+							<li className="flex w-full justify-between items-center px-2 py-3 border-[1px] rounded-lg hover:shadow-xl cursor-pointer transition-all duration-300 sm:px-6 md:px-10 bg-black/60">
+								<div className="flex flex-col w-full">
+									{/* DATE */}
+									<span className="font-semibold text-[0.7rem] font-times capitalize tracking-wide">
+										{formatDateWithSuffix(
+											new Date(
+												event.date
+											).toLocaleDateString()
+										)}
+									</span>
 
-								<p className="text-gray-400 text-xs">
-									{event.venue} {"//"} {event.city}
-								</p>
-							</div>
+									{/* TITLE */}
+									<h2 className="text-[1rem] font-semibold line-clamp-2 overflow-hidden -mt-1">
+										{event.title}
+									</h2>
 
-							{/* ticket link */}
-							<a
-								href={event.link}
-								target="_blank"
-								className={`min-w-20 inline-block text-blue-400 hover:text-blue-300 transition ml-3 duration-300 ${
-									session ? "mt-4" : ""
-								}`}
-							>
-								TICKETS
-							</a>
+									{/* LOCATION */}
+									<p className="text-gray-400 text-[0.8rem] tracking-wide capitalize -mt-1">
+										{event.venue}
+										{" // "}
+										{event.city}
+									</p>
+								</div>
 
-							{/* ✅ Keep Delete Button Separate from Layout */}
-							{session && (
-								<button
-									onClick={() => handleDelete(event.id)}
-									className="absolute top-2 right-2"
-								>
-									<TiDelete
-										size={24}
-										className="text-red-600"
-									/>
-								</button>
-							)}
-						</li>
+								{/* Keep "TICKETS" text */}
+								<div className="flex gap-1 items-center">
+									<div className="relative rounded-md border-[1px] border-white p-2">
+										{/* Transparent Background Overlay */}
+										<div className="rounded-md bg-white mix-blend-overlay w-full h-full absolute inset-0"></div>
+
+										{/* Text Layer (Separate, Ensuring White Color) */}
+										<p className="relative z-10 text-white text-center leading-8 font-semibold">
+											TICKETS
+										</p>
+									</div>
+
+									<button
+										onClick={(e) => {
+											e.preventDefault(); // Prevents the link from opening when clicking delete
+											handleDelete(event.id);
+										}}
+										className={`${
+											session ? "block" : "hidden"
+										}`}
+									>
+										<TiDelete
+											size={24}
+											className="text-red-600 hover:text-red-300"
+										/>
+									</button>
+								</div>
+							</li>
+						</a>
 					))}
 				</ul>
 			)}
