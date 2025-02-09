@@ -3,7 +3,6 @@ import Footer from "./components/Footer";
 const HomePage = () => {
 	return (
 		<div className="flex flex-col">
-			// todo
 			{/* video */}
 			<div className="w-full h-screen overflow-visible relative">
 				<video
