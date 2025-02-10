@@ -36,7 +36,7 @@ const EventCard: React.FC<EventCardProps> = ({
 				</div>
 
 				{/* Keep "TICKETS" text */}
-				<div className="px-2.5 py-1 bg-black text-white rounded-lg mix-blend-lighten">
+				<div className="px-2.5 py-1 bg-black text-white rounded-lg mix-blend-exclusion">
 					<p className="relative z-10  text-center leading-8 font-semibold text-sm">
 						TICKETS
 					</p>
