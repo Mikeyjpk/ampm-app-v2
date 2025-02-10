@@ -7,6 +7,7 @@ import { TiDelete } from "react-icons/ti";
 import dayjs from "dayjs";
 import localizedFormat from "dayjs/plugin/localizedFormat";
 import customParseFormat from "dayjs/plugin/customParseFormat";
+import EventCard from "./components/EventCard";
 
 dayjs.extend(localizedFormat);
 dayjs.extend(customParseFormat);
@@ -138,56 +139,29 @@ const EventsPage = () => {
 							href={event.link}
 							target="_blank"
 							rel="noopener noreferrer"
-							className="block"
+							className="block relative"
 						>
-							<li className="flex w-full flex-row justify-between items-center px-3 py-3 border-[0.1rem] rounded-lg hover:shadow-xl cursor-pointer transition-all duration-300 sm:px-6 md:px-10 bg-black/60">
-								<div className="flex flex-col">
-									{/* DATE */}
-									<span className="font-semibold text-[0.7rem] font-times tracking-wide lowercase">
-										{formatDateWithSuffix(event.date)}
-									</span>
+							<EventCard
+								date={formatDateWithSuffix(event.date)}
+								city={event.city}
+								title={event.title}
+								venue={event.venue}
+							/>
 
-									{/* TITLE */}
-									<h2 className="text-[1rem] font-semibold line-clamp-2 overflow-hidden -mt-1">
-										{event.title}
-									</h2>
-
-									{/* LOCATION */}
-									<p className="text-gray-400 text-[0.8rem] tracking-wide -mt-1">
-										{event.venue}
-										{" // "}
-										{event.city}
-									</p>
-								</div>
-
-								{/* Keep "TICKETS" text */}
-								<div className="flex gap-1 items-center">
-									<div className="relative rounded-md border-[1px] border-white p-2">
-										{/* Transparent Background Overlay */}
-										<div className="rounded-md bg-white mix-blend-overlay w-full h-full absolute inset-0"></div>
-
-										{/* Text Layer (Separate, Ensuring White Color) */}
-										<p className="relative z-10 text-white text-center leading-8 font-semibold">
-											TICKETS
-										</p>
-									</div>
-
-									<button
-										onClick={(e) => {
-											e.preventDefault(); // Prevents the link from opening when clicking delete
-											handleDelete(event.id);
-										}}
-										className={`${
-											session ? "block" : "hidden"
-										}`}
-									>
-										<TiDelete
-											size={24}
-											className="text-red-600 hover:text-red-300"
-										/>
-									</button>
-								</div>
-							</li>
+							<button
+								onClick={(e) => {
+									e.preventDefault();
+									handleDelete(event.id);
+								}}
+								className={`absolute top-0 right-3 ${
+									session ? "block" : "hidden"
+								}`}
+							>
+								<TiDelete
+									size={24}
+									className="text-red-600 hover:text-red-300"
+								/>
+							</button>
 						</a>
 					))}
 				</ul>
