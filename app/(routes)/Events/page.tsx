@@ -134,11 +134,8 @@ const EventsPage = () => {
 			) : (
 				<ul className="w-full max-w-3xl space-y-3 pb-5">
 					{events.map((event) => (
-						<a
+						<li
 							key={event.id}
-							href={event.link}
-							target="_blank"
-							rel="noopener noreferrer"
 							className="block relative hover:shadow-xl"
 						>
 							<EventCard
@@ -146,6 +143,7 @@ const EventsPage = () => {
 								city={event.city}
 								title={event.title}
 								venue={event.venue}
+								link={event.link}
 							/>
 
 							<button
@@ -162,7 +160,7 @@ const EventsPage = () => {
 									className="text-red-600 hover:text-red-300"
 								/>
 							</button>
-						</a>
+						</li>
 					))}
 				</ul>
 			)}
