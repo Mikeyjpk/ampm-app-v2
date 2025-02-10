@@ -139,7 +139,7 @@ const EventsPage = () => {
 							href={event.link}
 							target="_blank"
 							rel="noopener noreferrer"
-							className="block relative"
+							className="block relative hover:shadow-xl"
 						>
 							<EventCard
 								date={formatDateWithSuffix(event.date)}
