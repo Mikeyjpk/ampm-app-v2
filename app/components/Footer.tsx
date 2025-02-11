@@ -1,5 +1,7 @@
 "use client";
 
+import { useState } from "react";
+import { motion } from "framer-motion";
 import {
 	FaFacebook,
 	FaTwitter,
@@ -10,9 +12,21 @@ import {
 import { MdOutlineMailOutline } from "react-icons/md";
 import { SiThreads } from "react-icons/si";
 
-const Footer = () => {
+export default function Footer() {
+	const [isOpen, setIsOpen] = useState(false);
+	const [content, setContent] = useState("");
+
+	const openDrawer = (type: "privacy" | "terms") => {
+		setContent(type);
+		setIsOpen(true);
+	};
+
 	return (
-		<footer className="w-full flex flex-col items-center text-center select-none font-times py-5 gap-y-1 bg-white mix-blend-difference">
+		<div
+			className={`w-full flex flex-col items-center text-center select-none font-times py-5 gap-y-1 bg-white transition-all duration-300 ${
+				isOpen ? "" : "mix-blend-difference"
+			}`}
+		>
 			<div className="flex flex-col uppercase">
 				{/* Branding / Tagline */}
 				<div className="text-sm tracking-[.04rem]">
@@ -46,25 +60,56 @@ const Footer = () => {
 				))}
 			</div>
 
-			<div className="flex flex-col justify-center items-center">
-				{/* Copyright */}
-				<div className="text-[0.5rem] opacity-70 tracking-[.02rem] font-sans">
-					© 2025 AM//PM Emo Night, The Neighbourhood
-				</div>
-
-				{/* Links */}
-				<div className="flex gap-1 text-[0.5rem] font-sans">
-					<button className="hover:underline transition-all duration-1000 ease-in-out">
-						Privacy Policy
-					</button>
-					<span className="text-[0.4rem] mt-0.5">|</span>
-					<button className="hover:underline transition-all duration-1000 ease-in-out">
-						Terms &amp; Conditions
-					</button>
-				</div>
+			{/* Copyright */}
+			<div className="text-[0.5rem] opacity-70 tracking-[.02rem] font-sans">
+				© 2025 AM//PM Emo Night, The Neighbourhood
 			</div>
-		</footer>
-	);
-};
 
-export default Footer;
+			{/* Links */}
+			<div className="flex gap-1 text-[0.5rem] font-sans">
+				<button
+					className="hover:underline transition-all duration-500 ease-in-out"
+					onClick={() => openDrawer("privacy")}
+				>
+					Privacy Policy
+				</button>
+				<span className="text-[0.4rem] mt-0.5">|</span>
+
+				<button
+					className="hover:underline transition-all duration-500 ease-in-out"
+					onClick={() => openDrawer("terms")}
+				>
+					Terms &amp; Conditions
+				</button>
+			</div>
+
+			{/* Drawer Modal */}
+			{isOpen && (
+				<motion.div
+					initial={{ y: "100%" }}
+					animate={{ y: 0 }}
+					exit={{ y: "100%" }}
+					transition={{ duration: 0.5, ease: "easeInOut" }}
+					className="fixed bottom-0 left-0 w-full h-1/2 bg-zinc-100 shadow-xl p-4 border-t border-gray-300 rounded-t-2xl flex flex-col"
+				>
+					{/* Close Button */}
+					<button
+						className="text-gray-600 hover:text-black text-xl"
+						onClick={() => setIsOpen(false)}
+					>
+						✕
+					</button>
+
+					{/* Content */}
+					<div className="overflow-auto p-2 text-sm text-gray-700">
+						{content === "privacy" ? (
+							<p>**Privacy Policy:** Go here</p>
+						) : (
+							<p>**Terms & Conditions:** Go here</p>
+						)}
+					</div>
+				</motion.div>
+			)}
+		</div>
+	);
+}
