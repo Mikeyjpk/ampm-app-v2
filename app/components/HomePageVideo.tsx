@@ -58,7 +58,7 @@ const HomePageVideo = () => {
 				<img
 					src="/images/video-loader.png"
 					alt="Loading Placeholder"
-					className="absolute inset-0 w-full h-full object-cover bg-black pt-[52px]"
+					className="absolute inset-0 w-full h-full object-cover bg-black"
 				/>
 			)}
 
