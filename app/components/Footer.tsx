@@ -103,7 +103,7 @@ export default function Footer() {
 					</button>
 
 					{/* Content */}
-					<div className="overflow-auto p-2 text-sm text-gray-700">
+					<div className="overflow-auto text-gray-700 w-full">
 						{content === "privacy" ? (
 							<PrivacyPolicy />
 						) : (

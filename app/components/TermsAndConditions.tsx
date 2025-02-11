@@ -4,6 +4,22 @@ const TermsAndConditions = () => {
 			<div className="text-center text-lg font-semibold pb-6 pt-3">
 				Terms &amp; Conditions
 			</div>
+
+			<div>
+				<div>Goes here</div>
+				<div>Goes here</div>
+				<div>Goes here</div>
+				<div>Goes here</div>
+				<div>Goes here</div>
+				<div>Goes here</div>
+				<div>Goes here</div>
+				<div>Goes here</div>
+				<div>Goes here</div>
+				<div>Goes here</div>
+				<div>Goes here</div>
+				<div>Goes here</div>
+				<div>Goes here</div>
+			</div>
 		</div>
 	);
 };
