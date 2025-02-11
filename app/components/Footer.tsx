@@ -11,6 +11,8 @@ import {
 } from "react-icons/fa";
 import { MdOutlineMailOutline } from "react-icons/md";
 import { SiThreads } from "react-icons/si";
+import PrivacyPolicy from "./PrivacyPolicy";
+import TermsAndConditions from "./TermsAndConditions";
 
 export default function Footer() {
 	const [isOpen, setIsOpen] = useState(false);
@@ -90,7 +92,7 @@ export default function Footer() {
 					animate={{ y: 0 }}
 					exit={{ y: "100%" }}
 					transition={{ duration: 0.5, ease: "easeInOut" }}
-					className="fixed bottom-0 left-0 w-full h-1/2 bg-zinc-100 shadow-xl p-4 border-t border-gray-300 flex flex-col"
+					className="fixed bottom-0 w-full h-1/2 bg-zinc-100 shadow-xl p-4 border-t border-gray-300 flex flex-col justify-center items-center"
 				>
 					{/* Close Button */}
 					<button
@@ -103,9 +105,9 @@ export default function Footer() {
 					{/* Content */}
 					<div className="overflow-auto p-2 text-sm text-gray-700">
 						{content === "privacy" ? (
-							<p>**Privacy Policy:** Go here</p>
+							<PrivacyPolicy />
 						) : (
-							<p>**Terms & Conditions:** Go here</p>
+							<TermsAndConditions />
 						)}
 					</div>
 				</motion.div>
