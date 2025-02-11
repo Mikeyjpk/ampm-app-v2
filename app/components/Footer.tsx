@@ -90,7 +90,7 @@ export default function Footer() {
 					animate={{ y: 0 }}
 					exit={{ y: "100%" }}
 					transition={{ duration: 0.5, ease: "easeInOut" }}
-					className="fixed bottom-0 left-0 w-full h-1/2 bg-zinc-100 shadow-xl p-4 border-t border-gray-300 rounded-t-2xl flex flex-col"
+					className="fixed bottom-0 left-0 w-full h-1/2 bg-zinc-100 shadow-xl p-4 border-t border-gray-300 flex flex-col"
 				>
 					{/* Close Button */}
 					<button
