@@ -3,7 +3,7 @@
 import { useState, useRef, useEffect } from "react";
 
 const HomePageVideo = () => {
-	const [isLoading, setIsLoading] = useState<boolean>(true);
+	const [isVideoLoaded, setIsVideoLoaded] = useState<boolean>(false);
 	const [showPlayButton, setShowPlayButton] = useState<boolean>(false);
 	const videoRef = useRef<HTMLVideoElement | null>(null);
 
@@ -11,18 +11,15 @@ const HomePageVideo = () => {
 		const video = videoRef.current;
 		if (!video) return;
 
-		// Ensure state updates when video is fully loaded
 		const handleLoadedData = () => {
-			setIsLoading(false);
+			setIsVideoLoaded(true);
 		};
 
-		// Handle autoplay failure (e.g., due to browser restrictions)
 		const handleAutoplayError = (err: Error) => {
 			console.error("Autoplay blocked:", err);
 			setShowPlayButton(true);
 		};
 
-		// Attempt to autoplay when video is loaded
 		const tryAutoplay = () => {
 			video
 				.play()
@@ -30,12 +27,9 @@ const HomePageVideo = () => {
 				.catch(handleAutoplayError); // Autoplay failed
 		};
 
-		// Double-check state update after first render
 		video.addEventListener("loadeddata", handleLoadedData);
 		video.addEventListener("canplaythrough", tryAutoplay);
-		video.addEventListener("playing", () => setIsLoading(false));
 
-		// Manually check if video is ready
 		if (video.readyState >= 3) {
 			handleLoadedData();
 			tryAutoplay();
@@ -44,15 +38,13 @@ const HomePageVideo = () => {
 		return () => {
 			video.removeEventListener("loadeddata", handleLoadedData);
 			video.removeEventListener("canplaythrough", tryAutoplay);
-			video.removeEventListener("playing", () => setIsLoading(false));
 		};
 	}, []);
 
-	// Handle manual play button click
 	const handlePlayClick = () => {
 		const video = videoRef.current;
 		if (!video) return;
-		video.muted = false; // Unmute if user interacts
+		video.muted = false;
 		video
 			.play()
 			.then(() => setShowPlayButton(false))
@@ -60,16 +52,18 @@ const HomePageVideo = () => {
 	};
 
 	return (
-		<div className="w-full h-screen overflow-hidden relative mix-blend-lighten">
-			{/* Show loading animation while video is loading */}
-			{isLoading && (
-				<div className="absolute inset-0 flex flex-col justify-center items-center bg-black z-10 gap-10">
-					<div className="w-12 h-12 border-4 border-white border-t-transparent rounded-full animate-spin"></div>
-				</div>
+		<div className="w-full h-screen overflow-hidden relative  mix-blend-lighten">
+			{/* Show PNG placeholder if video is not loaded */}
+			{!isVideoLoaded && (
+				<img
+					src="/images/video-loader.png"
+					alt="Loading Placeholder"
+					className="absolute inset-0 w-full h-full object-cover bg-black pt-[52px]"
+				/>
 			)}
 
 			{/* Show "Tap to Play" button if autoplay is blocked */}
-			{showPlayButton && !isLoading && (
+			{showPlayButton && isVideoLoaded && (
 				<div className="absolute inset-0 flex justify-center items-center bg-black/50 z-10">
 					<button
 						onClick={handlePlayClick}
@@ -83,7 +77,9 @@ const HomePageVideo = () => {
 			{/* 🎥 Video Element */}
 			<video
 				ref={videoRef}
-				className="w-full h-full object-cover"
+				className={`w-full h-full object-cover transition-opacity duration-700 ${
+					isVideoLoaded ? "opacity-100" : "opacity-0"
+				}`}
 				src="/video/video.mp4"
 				autoPlay
 				muted
