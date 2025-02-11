@@ -52,7 +52,7 @@ const HomePageVideo = () => {
 	};
 
 	return (
-		<div className="w-full h-screen overflow-hidden relative  mix-blend-lighten">
+		<div className="w-full h-screen overflow-hidden relative mix-blend-lighten">
 			{/* Show PNG placeholder if video is not loaded */}
 			{!isVideoLoaded && (
 				<img

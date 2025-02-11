@@ -86,12 +86,12 @@ const Navbar: React.FC = () => {
 
 	return (
 		<div className="fixed top-0 left-1/2 transform -translate-x-1/2 w-full max-w-4xl flex justify-between items-center font-semibold z-50 px-6 py-3 bg-transparent select-none">
-			{/* Preload Background Image
+			{/* Preload Background Image */}
 			<img
 				src="/images/menu-background.png"
 				alt="Preload"
 				className="hidden"
-			/> */}
+			/>
 
 			{/* 🔹 Admin Tools (Only visible if logged in) */}
 			{session && (
