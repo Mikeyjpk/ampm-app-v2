@@ -160,6 +160,7 @@ const Navbar: React.FC = () => {
 				{isOpen ? <p>CLOSE</p> : <p>MENU</p>}
 			</button>
 
+			{/* Nav Menu */}
 			{/* AnimatePresence ensures proper unmounting animations */}
 			<AnimatePresence>
 				{isOpen && (
@@ -168,30 +169,43 @@ const Navbar: React.FC = () => {
 						animate="visible"
 						exit="exit"
 						variants={menuVariants}
-						className="fixed z-40 top-0 left-0 w-full h-screen bg-light flex flex-col justify-center items-center pb-16 bg-white"
+						className="fixed z-40 top-0 left-0 w-full h-screen bg-light flex flex-col justify-center items-center"
 					>
-						{/* Menu Items */}
-						{[
-							"HOME",
-							"UPCOMING EVENTS",
-							"PHOTO ALBUMS",
-							"MERCH STORE",
-						].map((item, index) => (
-							<motion.button
-								key={index}
-								variants={itemVariants}
-								custom={index} // Pass index to animate sequentially
-								initial="hidden"
-								animate="visible"
-								exit="hidden"
-								className="my-3 py-2"
-								onClick={() => navTo(item)}
-							>
-								<p className="text-black hover:text-sky-400 duration-700 text-2xl">
-									{item}
-								</p>
-							</motion.button>
-						))}
+						{/* Background image */}
+						<div
+							className="flex flex-col w-full h-full items-center justify-center object-fill max-w-lg"
+							style={{
+								backgroundImage:
+									"url('/images/menu-background.png')",
+								backgroundSize: "cover", // Ensures the image covers the entire div
+								backgroundPosition: "center", // Centers the image
+								backgroundRepeat: "no-repeat", // Prevents tiling
+								imageRendering: "auto", // Ensures smooth scaling
+							}}
+						>
+							{/* Menu Items */}
+							{[
+								"HOME",
+								"UPCOMING EVENTS",
+								"PHOTO ALBUMS",
+								"MERCH STORE",
+							].map((item, index) => (
+								<motion.button
+									key={index}
+									variants={itemVariants}
+									custom={index} // Pass index to animate sequentially
+									initial="hidden"
+									animate="visible"
+									exit="hidden"
+									className="my-3 py-2"
+									onClick={() => navTo(item)}
+								>
+									<p className="text-black hover:text-sky-400 duration-700 text-2xl">
+										{item}
+									</p>
+								</motion.button>
+							))}
+						</div>
 					</motion.div>
 				)}
 			</AnimatePresence>

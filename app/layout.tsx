@@ -28,7 +28,7 @@ export default function RootLayout({
 					<div
 						className="fixed inset-0 w-full h-screen bg-cover bg-center pointer-events-none z-[-1]"
 						style={{
-							backgroundImage: "url('/images/background.jpg')",
+							backgroundImage: "url('/images/background.png')",
 						}}
 					></div>
 					<AppContainer>
